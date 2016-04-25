@@ -1,7 +1,10 @@
 // To use:
+// npm install vinovate
+// move gulpfile.js and package.json to current working directory from /node_modules
 // npm install
 // gulp --js yourJSFile.js --css yourCSSFile.css --challenger yourChallengerFileName.html
 // a single js or css file can be watched, pass only that file as an argument
+// ex: gulp --js yourJSFile.js --challenger yourChallengerFileName.html
 
 var gulp = require('gulp');
 var uglify = require('gulp-uglify');
