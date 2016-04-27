@@ -1,27 +1,30 @@
 // To use:
 // npm install vinovate
 // run 'mv node_modules/vinovate/*.js node_modules/vinovate/*.json ./ && npm install'
-// gulp --js yourJSFile.js --css yourCSSFile.css --challenger yourChallengerFileName.html
-// a single js or css file can be watched, pass only that file as an argument
-// ex: gulp --js yourJSFile.js --challenger yourChallengerFileName.html
-
+// fill out the config.js file wit the appropriate properties
+// to specify an alternate config file (i.e. a config file for challenger B)
+//     - gulp --config configB.js
 var gulp = require('gulp');
+var gulpIf = require('gulp-if');
+var babel = require('gulp-babel');
 var uglify = require('gulp-uglify');
 var rename = require('gulp-rename');
 var concat = require('gulp-concat');
 var minCss = require('gulp-clean-css');
 var argv = require('yargs').argv;
+var config = argv.config ? require('./' + argv.config) : require('./config');
 var fs = require('fs');
 var prependFile = require('prepend-file');
 var del = require('del');
-var jsFile = argv.js ? argv.js.split('.js')[0] + '.min.js' : false;
-var cssFile = argv.css ? argv.css.split('.css')[0] + '.min.css' : false;
+
+var jsFile = config.jsFile ? config.jsFile.split('.js')[0] + '.min.js' : false;
+var cssFile = config.cssFile ? config.cssFile.split('.css')[0] + '.min.css' : false;
 
 gulp.task('minifyCSS', function() {
   if (cssFile) {
-    return gulp.src(argv.css)
+    return gulp.src(config.cssFile)
       .pipe(rename({suffix: '.min'}))
-      .pipe(minCss())
+      .pipe(gulpIf(!config.verbose, minCss()))
       .pipe(gulp.dest('./')).on('end', function() {
         prependFile.sync(cssFile, '<style>');
         fs.appendFileSync(cssFile, '</style>');
