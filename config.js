@@ -10,10 +10,10 @@ config.jsFile = 'challA.js';
 config.challenger = 'challA.html';
 
 //enable ES2015 transpiling
-config.babel = true;
+config.babel = false;
 
 //do not minify files
-config.verbose = true;
+config.verbose = false;
 
 //do not delete minified files
 config.preserveMinFiles = false;
