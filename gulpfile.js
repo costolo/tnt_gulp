@@ -34,9 +34,12 @@ gulp.task('minifyCSS', function() {
 
 gulp.task('minifyJS', function() {
   if (jsFile) {
-    return gulp.src(argv.js)
+    return gulp.src(config.jsFile)
+      .pipe(gulpIf(config.babel, babel({
+        presets: ['es2015']
+      })))
       .pipe(rename({suffix: '.min'}))
-      .pipe(uglify())
+      .pipe(gulpIf(!config.verbose, uglify()))
       .pipe(gulp.dest('./')).on('end', function() {
         prependFile.sync(jsFile, '<script>');
         fs.appendFileSync(jsFile, '</script>');
@@ -46,15 +49,15 @@ gulp.task('minifyJS', function() {
 
 gulp.task('concat', ['minifyCSS', 'minifyJS'], function() {
   return gulp.src('./*.min.*')
-  .pipe(concat(argv.challenger))
+  .pipe(concat(config.challenger))
   .pipe(gulp.dest('./')).on('end', function() {
-    del('*.min.*');
+    if (!config.preserveMinFiles) { del('*.min.*'); }
   });
 });
 
 gulp.task('watch', function() {
-  gulp.watch(argv.css, ['concat']);
-  gulp.watch(argv.js, ['concat']);
+  gulp.watch(config.cssFile, ['concat']);
+  gulp.watch(config.jsFile, ['concat']);
 });
 
 gulp.task('default', ['watch']);
