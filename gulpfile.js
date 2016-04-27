@@ -6,6 +6,7 @@
 //     - gulp --config configB.js
 var gulp = require('gulp');
 var gulpIf = require('gulp-if');
+var jsValidate = require('gulp-jsvalidate');
 var babel = require('gulp-babel');
 var uglify = require('gulp-uglify');
 var rename = require('gulp-rename');
@@ -35,6 +36,7 @@ gulp.task('minifyCSS', function() {
 gulp.task('minifyJS', function() {
   if (jsFile) {
     return gulp.src(config.jsFile)
+      .pipe(jsValidate())
       .pipe(gulpIf(config.babel, babel({
         presets: ['es2015']
       })))
