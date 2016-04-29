@@ -25,7 +25,7 @@ gulp.task('minifyCSS', function() {
     return gulp.src(config.cssFile)
       .pipe(rename({suffix: '.min'}))
       .pipe(gulpIf(!config.verbose, minCss()))
-      .pipe(gulp.dest('./')).on('end', function() {
+      .pipe(gulp.dest(`./${config.directory}`)).on('end', function() {
         prependFile.sync(cssFile, '<style>');
         fs.appendFileSync(cssFile, '</style>');
       });
@@ -41,18 +41,18 @@ gulp.task('minifyJS', function() {
       })))
       .pipe(rename({suffix: '.min'}))
       .pipe(gulpIf(!config.verbose, uglify()))
-      .pipe(gulp.dest('./')).on('end', function() {
+      .pipe(gulp.dest(`./${config.directory}`)).on('end', function() {
         prependFile.sync(jsFile, '<script>');
         fs.appendFileSync(jsFile, '</script>');
-      })
+      });
   }
 });
 
 gulp.task('concat', ['minifyCSS', 'minifyJS'], function() {
-  return gulp.src('./*.min.*')
+  return gulp.src(`./${config.directory}*.min.*`)
   .pipe(concat(config.challenger))
-  .pipe(gulp.dest('./')).on('end', function() {
-    if (!config.preserveMinFiles) { del('*.min.*'); }
+  .pipe(gulp.dest(`./${config.directory}`)).on('end', function() {
+    if (!config.preserveMinFiles) { del(`./${config.directory}*.min.*`); }
   });
 });
 
