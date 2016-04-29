@@ -1,10 +1,13 @@
 var config = {};
 
+//name of directory ***must be empty string or directory name***
+config.directory = '';
+
 //name of css file
-config.cssFile = 'challA.css';
+config.cssFile = config.directory + 'challA.css';
 
 //name of js file
-config.jsFile = 'challA.js';
+config.jsFile = config.directory + 'challA.js';
 
 //name of challenger
 config.challenger = 'challA.html';
