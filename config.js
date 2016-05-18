@@ -13,7 +13,7 @@ config.jsFile = config.directory + 'challA.js';
 config.challenger = 'challA.html';
 
 //enable ES2015 transpiling
-config.babel = false;
+config.babel = true;
 
 //do not minify files
 config.verbose = false;
