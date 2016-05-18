@@ -19,6 +19,7 @@ var del         = require('del');
 var config      = argv.config ? require('./' + argv.config) : require('./config');
 var jsFile      = config.jsFile ? config.jsFile.split('.js')[0] + '.min.js' : false;
 var cssFile     = config.cssFile ? config.cssFile.split('.css')[0] + '.min.css' : false;
+var replace     = require('gulp-replace');
 
 gulp.task('minifyCSS', function() {
   if (cssFile) {
@@ -39,6 +40,7 @@ gulp.task('minifyJS', function() {
       .pipe(gulpIf(config.babel, babel({
         presets: ['es2015']
       })))
+      .pipe(replace(/('|")use strict\1/g, ''))
       .pipe(rename({suffix: '.min'}))
       .pipe(gulpIf(!config.verbose, uglify()))
       .pipe(gulp.dest(`./${config.directory}`)).on('end', function() {
