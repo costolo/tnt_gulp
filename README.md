@@ -1,1 +1,1 @@
-A simple task runner that concurrently watches, minifies, and concatenates seperate CSS and JS files into one file. Streamlines the development process for code that will be used in Adobe T&T or similar testing tools.
+Preserving the original version of this tool prior to its integration within a larger build tool.
