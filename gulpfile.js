@@ -38,7 +38,8 @@ gulp.task('minifyJS', function() {
     return gulp.src(config.jsFile)
       .pipe(jsValidate())
       .pipe(gulpIf(config.babel, babel({
-        presets: ['es2015']
+        presets: ['es2015'],
+		babelrc: false
       })))
       .pipe(replace(/('|")use strict\1/g, ''))
       .pipe(rename({suffix: '.min'}))
@@ -64,3 +65,4 @@ gulp.task('watch', function() {
 });
 
 gulp.task('default', ['watch']);
+
